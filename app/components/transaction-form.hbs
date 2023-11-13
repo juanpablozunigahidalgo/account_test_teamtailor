@@ -1,9 +1,14 @@
-<div>
-  <label for="account-number">Account Number:</label>
-  {{input id="account-number" type="text" value=this.accountNumber}}
-
-  <label for="amount-transaction">Amount Transaction:</label>
-  {{input id="amount-transaction" type="text" value=this.amountTransaction}}
-
-  <button {{action this.handleSubmit}}>Submit</button>
-</div>
+<form {{action 'submitForm' on='submit'}}>
+  <label>
+    Account Number:
+    {{input value=accountNumber}}
+  </label>
+  <br>
+  <label>
+    Transaction Amount:
+    {{input value=transactionAmount}}
+  </label>
+  <br>
+  <button type="submit">Submit</button>
+</form>
+<div>{{message}}</div>

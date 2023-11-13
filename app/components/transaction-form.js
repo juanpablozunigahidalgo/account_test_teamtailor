@@ -1,34 +1,54 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
+import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 
-export default class TransactionFormComponent extends Component {
-  @tracked accountNumber = '';
-  @tracked amountTransaction = '';
+export default Component.extend({
+  store: service(),
+  accountNumber: null,
+  transactionAmount: null,
+  message: '',
 
-  @service store;
+  actions: {
+    async submitForm() {
+      const accountNumber = this.get('accountNumber');
+      const transactionAmount = this.get('transactionAmount');
 
-  @action
-  async handleSubmit() {
-    // Create a new transaction record
-    const newTransaction = this.store.createRecord('transaction', {
-      accountNumber: this.accountNumber,
-      amountTransaction: parseFloat(this.amountTransaction),
-    });
+      // Validate account existence
+      const account = await this.store.findRecord('account', accountNumber).catch(() => null);
 
-    // Save the record to the backend
-    await newTransaction.save();
+      if (!account) {
+        this.set('message', 'Account not found');
+        return;
+      }
 
-    // Log the entered values to the console
-    console.log('Account Number:', this.accountNumber);
-    console.log('Amount Transaction:', this.amountTransaction);
+      // Update transaction.json
+      const transaction = {
+        transaction_id: `t${Date.now()}`,
+        date_time: new Date().toISOString(),
+        account_number: accountNumber,
+        transaction_amount: parseFloat(transactionAmount),
+        updated_balance: account.get('updated_balance') - parseFloat(transactionAmount)
+      };
 
-    // Clear the input fields
-    this.accountNumber = '';
-    this.amountTransaction = '';
+      const transactions = await this.store.findAll('transaction');
+      transactions.pushObject(transaction);
+      await transaction.save();
 
-    // Display a message in the console
-    console.log('Transaction made');
+      // Update accountbalance.json
+      account.set('transaction_amount', parseFloat(transactionAmount));
+      account.set('updated_balance', transaction.updated_balance);
+      await account.save();
+
+      // Show success message
+      this.set('message', 'Transaction made');
+
+      // Clear form
+      this.set('accountNumber', null);
+      this.set('transactionAmount', null);
+
+      // Clear message after 2 seconds
+      setTimeout(() => {
+        this.set('message', '');
+      }, 2000);
+    }
   }
-}
+});
