@@ -1,0 +1,11 @@
+{
+    "transactions": [
+      {
+        "transaction_id": "t001",
+        "date_time": "2023-11-12T10:30:00",
+        "account_number":1,
+        "transaction_amount": 50.00,
+        "updated_balance": 950.00
+      }
+    ]
+  }

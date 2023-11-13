@@ -1,0 +1,9 @@
+{
+    "accounts": {
+      "1": {
+        "account_number": 1,
+        "last_transaction_amount": 50.00,
+        "updated_balance": 950.00
+      }
+    }
+  }

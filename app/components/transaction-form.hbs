@@ -1,0 +1,9 @@
+<div>
+  <label for="account-number">Account Number:</label>
+  {{input id="account-number" type="text" value=this.accountNumber}}
+
+  <label for="amount-transaction">Amount Transaction:</label>
+  {{input id="amount-transaction" type="text" value=this.amountTransaction}}
+
+  <button {{action this.handleSubmit}}>Submit</button>
+</div>
