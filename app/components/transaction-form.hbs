@@ -1,14 +1,14 @@
-<form {{action 'submitForm' on='submit'}}>
-  <label>
-    Account Number:
-    {{input value=accountNumber}}
-  </label>
-  <br>
-  <label>
-    Transaction Amount:
-    {{input value=transactionAmount}}
-  </label>
-  <br>
-  <button type="submit">Submit</button>
+<form {{on "submit" this.submitTransaction}}>
+  <div class="form-group">
+    <label for="accountNumber">Account Number:</label>
+    {{input type="text" class="form-control" id="accountNumber" value=this.accountNumber}}
+  </div>
+
+  <div class="form-group">
+    <label for="transactionAmount">Transaction Amount:</label>
+    {{input type="number" class="form-control" id="transactionAmount" value=this.transactionAmount}}
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <div>{{message}}</div>

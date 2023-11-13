@@ -76,5 +76,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "ember-cli-bootstrap-4": "^1.0.0"
   }
 }
