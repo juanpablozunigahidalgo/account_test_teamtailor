@@ -17,55 +17,65 @@ export default Component.extend({
     this.postDataToJsonBin = this.postDataToJsonBin.bind(this);
   },
 
-
-
   submitTransaction: async function (event) {
     event.preventDefault(); // Prevent the default form submission behavior
-
+  
     const accountNumber = this.get('accountNumber');
     const transactionAmount = this.get('transactionAmount');
-
+  
     // Fetch accounts from jsonbin.io
     const accounts = await this.fetchAccountsFromJsonBin('654ce74612a5d3765997106e');
     console.log(accounts);
-
+  
     // Validate account existence
-    const account = accounts.find((acc) => acc.account_number === accountNumber);
-
+    let account = accounts.find((acc) => acc.account_number === accountNumber);
+  
     if (!account) {
       this.set('message', 'Account not found');
       console.log('Account not found');
       console.log(accountNumber);
       console.log(transactionAmount);
-      return;
+  
+      // If account not found, create a new account
+      account = {
+        account_number: accountNumber,
+        transaction_history: [], // Maintain transaction history for new accounts
+        transaction_amount: parseFloat(transactionAmount), // Initial transaction amount for a new account
+        updated_balance: parseFloat(transactionAmount),
+      };
+  
+      // Add the new account to the accounts array
+      accounts.push(account);
+  
+      // Update accounts on jsonbin.io
+      await this.postDataToJsonBin({ accounts }, '654ce74612a5d3765997106e');
+  
+      this.set('message', 'New account registered');
+    } else {
+      // Existing account logic
+  
+      // Update transactions on jsonbin.io
+      const transaction = {
+        transaction_id: `t${Date.now()}`,
+        date_time: new Date().toISOString(),
+        account_number: accountNumber,
+        transaction_amount: parseFloat(transactionAmount),
+        // Updated balance for existing account
+        updated_balance: account.updated_balance ? account.updated_balance - parseFloat(transactionAmount) : parseFloat(transactionAmount),
+      };
+  
+      account.transaction_history.push(transaction);
+  
+      await this.postDataToJsonBin({ accounts }, '654ce74612a5d3765997106e');
+  
+      // Show success message
+      this.set('message', 'Transaction made');
     }
-
-    // Update transactions on jsonbin.io
-    const transaction = {
-      transaction_id: `t${Date.now()}`,
-      date_time: new Date().toISOString(),
-      account_number: accountNumber,
-      transaction_amount: parseFloat(transactionAmount),
-      updated_balance: account.updated_balance - parseFloat(transactionAmount),
-    };
-
-    await this.postDataToJsonBin(transaction, '654ce85612a5d376599710d9');
-
-    // Update account balance on jsonbin.io
-    const updatedAccount = {
-      transaction_amount: parseFloat(transactionAmount),
-      updated_balance: transaction.updated_balance,
-    };
-
-    await this.postDataToJsonBin(updatedAccount, '654ce74612a5d3765997106e');
-
-    // Show success message
-    this.set('message', 'Transaction made');
-
+  
     // Clear form
     this.set('accountNumber', null);
     this.set('transactionAmount', null);
-
+  
     // Clear message after 2 seconds
     setTimeout(() => {
       this.set('message', '');
@@ -103,27 +113,6 @@ export default Component.extend({
     });
   },
 
-
-  // fetchAccountsFromJsonBin: async function (binId) {
-  //   const apiKey = '$2b$10$xFC7BlC/9mfhK2jwRMo.IemTR8HRFha0TZyWFgA8n./iRCF2kjqpG';
-  //   const apiUrl = `https://api.jsonbin.io/v3/b/${binId}/latest`;
-
-  //   try {
-  //     const response = await fetch(apiUrl, {
-  //       headers: {
-  //         'X-Master-Key': apiKey,
-  //       },
-  //     });
-
-  //     const data = await response.json();
-
-  //     return data.accounts || [];
-  //   } catch (error) {
-  //     console.error('Error fetching accounts from jsonbin.io:', error);
-  //     return [];
-  //   }
-  // },
-
   postDataToJsonBin: async function (data, binId) {
     const apiKey = '$2b$10$xFC7BlC/9mfhK2jwRMo.IemTR8HRFha0TZyWFgA8n./iRCF2kjqpG';
     const apiUrl = `https://api.jsonbin.io/v3/b/${binId}`;
@@ -142,3 +131,4 @@ export default Component.extend({
     }
   },
 });
+
