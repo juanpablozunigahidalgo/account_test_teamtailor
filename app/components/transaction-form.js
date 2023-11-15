@@ -8,7 +8,18 @@ export default Component.extend({
   transactionAmount: null,
   message: '',
 
-  async submitTransaction(event) {
+  init() {
+    this._super(...arguments);
+
+    // Bind functions to the component instance
+    this.submitTransaction = this.submitTransaction.bind(this);
+    this.fetchAccountsFromJsonBin = this.fetchAccountsFromJsonBin.bind(this);
+    this.postDataToJsonBin = this.postDataToJsonBin.bind(this);
+  },
+
+
+
+  submitTransaction: async function (event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
     const accountNumber = this.get('accountNumber');
@@ -23,6 +34,8 @@ export default Component.extend({
     if (!account) {
       this.set('message', 'Account not found');
       console.log('Account not found');
+      console.log(accountNumber);
+      console.log(transactionAmount);
       return;
     }
 
@@ -58,7 +71,7 @@ export default Component.extend({
     }, 2000);
   },
 
-  async fetchAccountsFromJsonBin(binId) {
+  fetchAccountsFromJsonBin: async function (binId) {
     const apiKey = '$2b$10$xFC7BlC/9mfhK2jwRMo.IemTR8HRFha0TZyWFgA8n./iRCF2kjqpG';
     const apiUrl = `https://api.jsonbin.io/v3/b/${binId}/latest`;
 
@@ -78,7 +91,7 @@ export default Component.extend({
     }
   },
 
-  async postDataToJsonBin(data, binId) {
+  postDataToJsonBin: async function (data, binId) {
     const apiKey = '$2b$10$xFC7BlC/9mfhK2jwRMo.IemTR8HRFha0TZyWFgA8n./iRCF2kjqpG';
     const apiUrl = `https://api.jsonbin.io/v3/b/${binId}`;
 
