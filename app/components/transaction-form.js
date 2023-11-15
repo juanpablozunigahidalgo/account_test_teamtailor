@@ -7,6 +7,7 @@ export default Component.extend({
   accountNumber: null,
   transactionAmount: null,
   message: '',
+  
 
   init() {
     this._super(...arguments);
@@ -15,6 +16,7 @@ export default Component.extend({
     this.submitTransaction = this.submitTransaction.bind(this);
     this.fetchAccountsFromJsonBin = this.fetchAccountsFromJsonBin.bind(this);
     this.postDataToJsonBin = this.postDataToJsonBin.bind(this);
+    this.postDataToJsonBinTransactions = this.postDataToJsonBinTransactions.bind(this);
   },
 
   submitTransaction: async function (event) {
@@ -74,9 +76,18 @@ export default Component.extend({
       // Add the transaction to the transaction history
       account.transaction_history.push(transaction);
     }
-  
+
     // Update accounts on jsonbin.io
     await this.postDataToJsonBin({ accounts }, '654ce74612a5d3765997106e');
+
+    // Push transaction to jsonbin.io
+    await this.postDataToJsonBinTransactions({
+      transaction_id: `t${Date.now()}`,
+      date_time: new Date().toISOString(),
+      account_number: accountNumber,
+      transaction_amount: transactionAmount,
+      updated_balance: account.running_balance + transactionAmount,
+    }, '654ce85612a5d376599710d9');
   
     // Show success message
     this.set('message', 'Transaction made');
@@ -139,5 +150,41 @@ export default Component.extend({
       console.error('Error posting data to jsonbin.io:', error);
     }
   },
+
+  postDataToJsonBinTransactions: async function (newTransaction, binId) {
+    const apiKey = '$2b$10$xFC7BlC/9mfhK2jwRMo.IemTR8HRFha0TZyWFgA8n./iRCF2kjqpG';
+    const apiUrl = `https://api.jsonbin.io/v3/b/${binId}`;
+  
+    try {
+      // Fetch existing data from the JSON bin
+      const existingData = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'X-Master-Key': apiKey,
+        },
+      }).then(response => response.json());
+  
+      // Extract the existing transactions array or initialize an empty array
+      const transactions = existingData.record && existingData.record.transactions ? existingData.record.transactions : [];
+  
+      // Append the new transaction to the existing array
+      transactions.push(newTransaction);
+  
+      // Update the JSON bin with the modified transactions array
+      await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': apiKey,
+        },
+        body: JSON.stringify({ record: { transactions } }),
+      });
+    } catch (error) {
+      console.error('Error posting data to jsonbin.io:', error);
+    }
+  },
+
+
+
 });
 
