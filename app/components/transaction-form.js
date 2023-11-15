@@ -27,6 +27,7 @@ export default Component.extend({
 
     // Fetch accounts from jsonbin.io
     const accounts = await this.fetchAccountsFromJsonBin('654ce74612a5d3765997106e');
+    console.log(accounts);
 
     // Validate account existence
     const account = accounts.find((acc) => acc.account_number === accountNumber);
@@ -74,22 +75,54 @@ export default Component.extend({
   fetchAccountsFromJsonBin: async function (binId) {
     const apiKey = '$2b$10$xFC7BlC/9mfhK2jwRMo.IemTR8HRFha0TZyWFgA8n./iRCF2kjqpG';
     const apiUrl = `https://api.jsonbin.io/v3/b/${binId}/latest`;
-
-    try {
-      const response = await fetch(apiUrl, {
-        headers: {
-          'X-Master-Key': apiKey,
-        },
-      });
-
-      const data = await response.json();
-
-      return data.accounts || [];
-    } catch (error) {
-      console.error('Error fetching accounts from jsonbin.io:', error);
-      return [];
-    }
+  
+    return new Promise((resolve, reject) => {
+      const req = new XMLHttpRequest();
+  
+      req.onreadystatechange = () => {
+        if (req.readyState === XMLHttpRequest.DONE) {
+          if (req.status === 200) {
+            try {
+              const response = JSON.parse(req.responseText);
+              const data = response.record || {}; // Assuming the actual data is nested under "record"
+              resolve(data.accounts || []);
+            } catch (error) {
+              console.error('Error parsing JSON:', error);
+              reject([]);
+            }
+          } else {
+            console.error('Error fetching accounts from jsonbin.io:', req.statusText);
+            reject([]);
+          }
+        }
+      };
+  
+      req.open('GET', apiUrl, true);
+      req.setRequestHeader('X-Master-Key', apiKey);
+      req.send();
+    });
   },
+
+
+  // fetchAccountsFromJsonBin: async function (binId) {
+  //   const apiKey = '$2b$10$xFC7BlC/9mfhK2jwRMo.IemTR8HRFha0TZyWFgA8n./iRCF2kjqpG';
+  //   const apiUrl = `https://api.jsonbin.io/v3/b/${binId}/latest`;
+
+  //   try {
+  //     const response = await fetch(apiUrl, {
+  //       headers: {
+  //         'X-Master-Key': apiKey,
+  //       },
+  //     });
+
+  //     const data = await response.json();
+
+  //     return data.accounts || [];
+  //   } catch (error) {
+  //     console.error('Error fetching accounts from jsonbin.io:', error);
+  //     return [];
+  //   }
+  // },
 
   postDataToJsonBin: async function (data, binId) {
     const apiKey = '$2b$10$xFC7BlC/9mfhK2jwRMo.IemTR8HRFha0TZyWFgA8n./iRCF2kjqpG';
