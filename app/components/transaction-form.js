@@ -25,6 +25,9 @@ export default Component.extend({
   
     // Fetch accounts from jsonbin.io
     const accounts = await this.fetchAccountsFromJsonBin('654ce74612a5d3765997106e');
+    console.log(accountNumber);
+    console.log(transactionAmount);
+    console.log(accounts);
   
     // Validate account existence
     let account = accounts.find((acc) => acc.account_number === accountNumber);
@@ -33,8 +36,6 @@ export default Component.extend({
       // If account not found, create a new account
       this.set('message', 'Account not found');
       console.log('Account not found');
-      console.log(accountNumber);
-      console.log(transactionAmount);
       account = {
         account_number: accountNumber,
         transaction_history: [], // Initialize transaction history for new accounts
