@@ -18,59 +18,67 @@ export default Component.extend({
   },
 
   submitTransaction: async function (event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
   
     const accountNumber = this.get('accountNumber');
-    const transactionAmount = this.get('transactionAmount');
+    const transactionAmount = parseFloat(this.get('transactionAmount'));
   
     // Fetch accounts from jsonbin.io
     const accounts = await this.fetchAccountsFromJsonBin('654ce74612a5d3765997106e');
-    console.log(accounts);
   
     // Validate account existence
     let account = accounts.find((acc) => acc.account_number === accountNumber);
   
     if (!account) {
+      // If account not found, create a new account
       this.set('message', 'Account not found');
       console.log('Account not found');
       console.log(accountNumber);
       console.log(transactionAmount);
-  
-      // If account not found, create a new account
       account = {
         account_number: accountNumber,
-        transaction_history: [], // Maintain transaction history for new accounts
-        transaction_amount: parseFloat(transactionAmount), // Initial transaction amount for a new account
-        updated_balance: parseFloat(transactionAmount),
+        transaction_history: [], // Initialize transaction history for new accounts
+        running_balance: transactionAmount, // Initialize running_balance for new accounts
+        latest_transaction_amount: transactionAmount, // Initialize latest_transaction_amount for new accounts
+      };
+  
+      // Add the very first transaction to the transaction history
+      const firstTransaction = {
+        transaction_id: `t${Date.now()}`,
+        date_time: new Date().toISOString(),
+        account_number: accountNumber,
+        transaction_amount: transactionAmount,
+        updated_balance: transactionAmount,
       };
   
       // Add the new account to the accounts array
+      account.transaction_history.push(firstTransaction);
       accounts.push(account);
-  
-      // Update accounts on jsonbin.io
-      await this.postDataToJsonBin({ accounts }, '654ce74612a5d3765997106e');
-  
-      this.set('message', 'New account registered');
     } else {
-      // Existing account logic
-  
-      // Update transactions on jsonbin.io
+      // Update transactions on jsonbin.io for existing accounts
       const transaction = {
         transaction_id: `t${Date.now()}`,
         date_time: new Date().toISOString(),
         account_number: accountNumber,
-        transaction_amount: parseFloat(transactionAmount),
-        // Updated balance for existing account
-        updated_balance: account.updated_balance ? account.updated_balance - parseFloat(transactionAmount) : parseFloat(transactionAmount),
+        transaction_amount: transactionAmount,
+        updated_balance: account.running_balance + transactionAmount,
       };
   
+      // Update the running balance for the account
+      account.running_balance += transactionAmount;
+  
+      // Update the latest_transaction_amount for the account
+      account.latest_transaction_amount = transactionAmount;
+  
+      // Add the transaction to the transaction history
       account.transaction_history.push(transaction);
-  
-      await this.postDataToJsonBin({ accounts }, '654ce74612a5d3765997106e');
-  
-      // Show success message
-      this.set('message', 'Transaction made');
     }
+  
+    // Update accounts on jsonbin.io
+    await this.postDataToJsonBin({ accounts }, '654ce74612a5d3765997106e');
+  
+    // Show success message
+    this.set('message', 'Transaction made');
   
     // Clear form
     this.set('accountNumber', null);
