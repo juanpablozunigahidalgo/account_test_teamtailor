@@ -105,6 +105,7 @@ export default Component.extend({
     setTimeout(() => {
       this.set('message', '');
     }, 500);
+    
   },
 
   fetchAccountsFromJsonBin: async function (binId) {
