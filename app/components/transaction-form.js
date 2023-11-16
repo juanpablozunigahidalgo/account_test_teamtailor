@@ -80,13 +80,13 @@ export default Component.extend({
     // Update accounts on jsonbin.io
     await this.postDataToJsonBin({ accounts }, '654ce74612a5d3765997106e');
 
-    // Push transaction to jsonbin.io
+    // Push transaction to jsonbin.io for transaction history
     await this.postDataToJsonBinTransactions({
       transaction_id: `t${Date.now()}`,
       date_time: new Date().toISOString(),
       account_number: accountNumber,
       transaction_amount: transactionAmount,
-      updated_balance: account.running_balance + transactionAmount,
+      updated_balance: account.running_balance,
     }, '654ce85612a5d376599710d9');
   
     // Show success message
@@ -99,7 +99,7 @@ export default Component.extend({
     // Clear message after 2 seconds
     setTimeout(() => {
       this.set('message', '');
-    }, 2000);
+    }, 500);
   },
 
   fetchAccountsFromJsonBin: async function (binId) {
@@ -165,7 +165,7 @@ export default Component.extend({
       }).then(response => response.json());
   
       // Extract the existing transactions array or initialize an empty array
-      const transactions = existingData.record && existingData.record.transactions ? existingData.record.transactions : [];
+      const transactions = existingData.record && existingData.record.transactions || [];
   
       // Append the new transaction to the existing array
       transactions.push(newTransaction);
@@ -177,7 +177,7 @@ export default Component.extend({
           'Content-Type': 'application/json',
           'X-Master-Key': apiKey,
         },
-        body: JSON.stringify({ record: { transactions } }),
+        body: JSON.stringify({ transactions }),
       });
     } catch (error) {
       console.error('Error posting data to jsonbin.io:', error);
