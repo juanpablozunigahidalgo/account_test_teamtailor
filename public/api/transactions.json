@@ -1,11 +1,74 @@
 {
-    "transactions": [
-      {
-        "transaction_id": "t001",
-        "date_time": "2023-11-12T10:30:00",
-        "account_number":1,
-        "transaction_amount": 50.00,
-        "updated_balance": 950.00
-      }
-    ]
-  }
+  "transactions": [
+    {
+      "transaction_id": "t1700132270603",
+      "date_time": "2023-11-16T10:57:50.603Z",
+      "account_number": "2",
+      "transaction_amount": 1,
+      "updated_balance": 2
+    },
+    {
+      "transaction_id": "t1700132619276",
+      "date_time": "2023-11-16T11:03:39.276Z",
+      "account_number": "1",
+      "transaction_amount": 1,
+      "updated_balance": 3
+    },
+    {
+      "transaction_id": "t1700132624277",
+      "date_time": "2023-11-16T11:03:44.277Z",
+      "account_number": "2",
+      "transaction_amount": 1,
+      "updated_balance": 3
+    },
+    {
+      "transaction_id": "t1700132631286",
+      "date_time": "2023-11-16T11:03:51.286Z",
+      "account_number": "3",
+      "transaction_amount": 1,
+      "updated_balance": 2
+    },
+    {
+      "transaction_id": "t1700135816694",
+      "date_time": "2023-11-16T11:56:56.694Z",
+      "account_number": "1",
+      "transaction_amount": 1,
+      "updated_balance": 4
+    },
+    {
+      "transaction_id": "t1700136228465",
+      "date_time": "2023-11-16T12:03:48.465Z",
+      "account_number": "1",
+      "transaction_amount": 1,
+      "updated_balance": 6
+    },
+    {
+      "transaction_id": "t1700136256742",
+      "date_time": "2023-11-16T12:04:16.742Z",
+      "account_number": null,
+      "transaction_amount": null,
+      "updated_balance": null
+    },
+    {
+      "transaction_id": "t1700136308027",
+      "date_time": "2023-11-16T12:05:08.027Z",
+      "account_number": "1",
+      "transaction_amount": 1,
+      "updated_balance": 7
+    },
+    {
+      "transaction_id": "t1700137205972",
+      "date_time": "2023-11-16T12:20:05.972Z",
+      "account_number": "2",
+      "transaction_amount": 1,
+      "updated_balance": 4
+    },
+    {
+      "transaction_id": "t1700137216968",
+      "date_time": "2023-11-16T12:20:16.968Z",
+      "account_number": "3",
+      "transaction_amount": 1,
+      "updated_balance": 3
+    }
+  ]
+}
