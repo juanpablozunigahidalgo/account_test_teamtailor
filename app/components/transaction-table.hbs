@@ -1,0 +1,28 @@
+{{#if this.transactions}}
+
+<table>
+  <thead>
+    <tr>
+      <th>Transaction ID</th>
+      <th>Date and Time</th>
+      <th>Account Number</th>
+      <th>Transaction Amount</th>
+      <th>Updated Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this.transactions as |transaction|}}
+      <tr>
+        <td>{{transaction.transaction_id}}</td>
+        <td>{{transaction.date_time}}</td>
+        <td>{{transaction.account_number}}</td>
+        <td>{{transaction.transaction_amount}}</td>
+        <td>{{transaction.updated_balance}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+{{else}}
+  <p>Loading transactions...</p>
+{{/if}}
