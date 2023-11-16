@@ -1,0 +1,36 @@
+<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 50vh;">
+
+  {{#if this.transactions}}
+
+  <div style="padding-top: 20px; padding-bottom: 20px;">
+
+    <table style="width: 80%; border-collapse: collapse;">
+      <thead style="background-color: #f2f2f2;">
+        <tr>
+          <th style="border: 1px solid #dddddd; text-align: center; padding: 12px;">Transaction ID</th>
+          <th style="border: 1px solid #dddddd; text-align: center; padding: 12px;">Date and Time</th>
+          <th style="border: 1px solid #dddddd; text-align: center; padding: 12px;">Account Number</th>
+          <th style="border: 1px solid #dddddd; text-align: center; padding: 12px;">Transaction Amount</th>
+          <th style="border: 1px solid #dddddd; text-align: center; padding: 12px;">Updated Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this.transactions as |transaction|}}
+        <tr style="height: 40px;">
+          <td style="border: 1px solid #dddddd; text-align: center; padding: 12px;">{{transaction.transaction_id}}</td>
+          <td style="border: 1px solid #dddddd; text-align: center; padding: 12px;">{{transaction.date_time}}</td>
+          <td style="border: 1px solid #dddddd; text-align: center; padding: 12px;">{{transaction.account_number}}</td>
+          <td style="border: 1px solid #dddddd; text-align: center; padding: 12px;">{{transaction.transaction_amount}}</td>
+          <td style="border: 1px solid #dddddd; text-align: center; padding: 12px;">{{transaction.updated_balance}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+  </div>
+
+  {{else}}
+  <p style="text-align: center; font-size: 18px; color: #666; margin-top: 20px;">Loading transactions...</p>
+  {{/if}}
+
+</div>

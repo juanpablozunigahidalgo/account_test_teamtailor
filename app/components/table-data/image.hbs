@@ -1,0 +1,18 @@
+{{yield}}
+{{!-- <div class="image">
+  <img ...attributes>
+</div> --}}
+<button type="button" class="image {{if this.isLarge "large"}}" {{on "click" this.toggleSize}}>
+  <img ...attributes>
+  {{#if this.isLarge}}
+    <small>View Smaller</small>
+
+
+
+
+  {{else}}
+    <small>View Larger</small>
+
+
+  {{/if}}
+</button>

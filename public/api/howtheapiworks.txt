@@ -1,0 +1,11 @@
+This API folder only contains examples on how the data is structured. 
+The data JSON object is on JSONBIN IO website. As experimental for this example.
+
+If you wanna understand or view the structure. Copy the content of such files
+and then go to : 
+https://jsonviewer.stack.hu/
+
+Then you can understand how the logic is. 
+
+BR
+Juan Pablo 
