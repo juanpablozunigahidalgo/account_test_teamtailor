@@ -22,7 +22,10 @@
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test"
+    "test:ember": "ember test",
+    "deploy": "ember build --environment=production && cross-env EMBER_CLI_GITHUB_PAGES='./node_modules/.bin/ember-cli-github-pages' npm run deploy-gh-pages",
+    "deploy-gh-pages": "npm run deploy-gh-pages-command",
+    "deploy-gh-pages-command": "%EMBER_CLI_GITHUB_PAGES% --branch=gh-pages"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
@@ -35,6 +38,7 @@
     "@glimmer/tracking": "^1.1.2",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "ember-auto-import": "^2.6.3",
     "ember-cli": "~5.4.0",
     "ember-cli-app-version": "^6.0.1",

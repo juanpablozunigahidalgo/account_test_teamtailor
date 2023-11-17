@@ -1,0 +1,144 @@
+{
+  "accounts": [
+    {
+      "account_number": "1",
+      "transaction_history": [
+        {
+          "transaction_id": "t1700118122855",
+          "date_time": "2023-11-16T07:02:02.855Z",
+          "account_number": "1",
+          "transaction_amount": 1,
+          "updated_balance": 1
+        },
+        {
+          "transaction_id": "t1700132258971",
+          "date_time": "2023-11-16T10:57:38.971Z",
+          "account_number": "1",
+          "transaction_amount": 1,
+          "updated_balance": 2
+        },
+        {
+          "transaction_id": "t1700132617275",
+          "date_time": "2023-11-16T11:03:37.275Z",
+          "account_number": "1",
+          "transaction_amount": 1,
+          "updated_balance": 3
+        },
+        {
+          "transaction_id": "t1700135814693",
+          "date_time": "2023-11-16T11:56:54.693Z",
+          "account_number": "1",
+          "transaction_amount": 1,
+          "updated_balance": 4
+        },
+        {
+          "transaction_id": "t1700136215467",
+          "date_time": "2023-11-16T12:03:35.467Z",
+          "account_number": "1",
+          "transaction_amount": 1,
+          "updated_balance": 5
+        },
+        {
+          "transaction_id": "t1700136224454",
+          "date_time": "2023-11-16T12:03:44.454Z",
+          "account_number": "1",
+          "transaction_amount": 1,
+          "updated_balance": 6
+        },
+        {
+          "transaction_id": "t1700136306031",
+          "date_time": "2023-11-16T12:05:06.031Z",
+          "account_number": "1",
+          "transaction_amount": 1,
+          "updated_balance": 7
+        },
+        {
+          "transaction_id": "t1700137200967",
+          "date_time": "2023-11-16T12:20:00.967Z",
+          "account_number": "1",
+          "transaction_amount": 1,
+          "updated_balance": 8
+        }
+      ],
+      "running_balance": 8,
+      "latest_transaction_amount": 1
+    },
+    {
+      "account_number": "2",
+      "transaction_history": [
+        {
+          "transaction_id": "t1700118130856",
+          "date_time": "2023-11-16T07:02:10.856Z",
+          "account_number": "2",
+          "transaction_amount": 1,
+          "updated_balance": 1
+        },
+        {
+          "transaction_id": "t1700132268587",
+          "date_time": "2023-11-16T10:57:48.587Z",
+          "account_number": "2",
+          "transaction_amount": 1,
+          "updated_balance": 2
+        },
+        {
+          "transaction_id": "t1700132622276",
+          "date_time": "2023-11-16T11:03:42.276Z",
+          "account_number": "2",
+          "transaction_amount": 1,
+          "updated_balance": 3
+        },
+        {
+          "transaction_id": "t1700137203969",
+          "date_time": "2023-11-16T12:20:03.969Z",
+          "account_number": "2",
+          "transaction_amount": 1,
+          "updated_balance": 4
+        }
+      ],
+      "running_balance": 4,
+      "latest_transaction_amount": 1
+    },
+    {
+      "account_number": "3",
+      "transaction_history": [
+        {
+          "transaction_id": "t1700118133863",
+          "date_time": "2023-11-16T07:02:13.863Z",
+          "account_number": "3",
+          "transaction_amount": 1,
+          "updated_balance": 1
+        },
+        {
+          "transaction_id": "t1700132627293",
+          "date_time": "2023-11-16T11:03:47.293Z",
+          "account_number": "3",
+          "transaction_amount": 1,
+          "updated_balance": 2
+        },
+        {
+          "transaction_id": "t1700137210970",
+          "date_time": "2023-11-16T12:20:10.970Z",
+          "account_number": "3",
+          "transaction_amount": 1,
+          "updated_balance": 3
+        }
+      ],
+      "running_balance": 3,
+      "latest_transaction_amount": 1
+    },
+    {
+      "account_number": null,
+      "transaction_history": [
+        {
+          "transaction_id": "t1700136253730",
+          "date_time": "2023-11-16T12:04:13.730Z",
+          "account_number": null,
+          "transaction_amount": null,
+          "updated_balance": null
+        }
+      ],
+      "running_balance": null,
+      "latest_transaction_amount": null
+    }
+  ]
+}

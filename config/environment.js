@@ -5,7 +5,8 @@ module.exports = function (environment) {
     modulePrefix: 'account-test',
     environment,
     rootURL: '/',
-    locationType: 'history',
+    locationType: 'hash', // Use 'hash' for GitHub Pages
+    baseURL: '/account_test_teamtailor/',
     EmberENV: {
       EXTEND_PROTOTYPES: false,
       FEATURES: {
