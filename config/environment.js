@@ -4,7 +4,7 @@ module.exports = function (environment) {
   const ENV = {
     modulePrefix: 'account-test',
     environment,
-    rootURL: './',
+    rootURL: '/',
     locationType: 'hash', // Use 'hash' for GitHub Pages
     baseURL: '/account_test_teamtailor/',
     EmberENV: {
